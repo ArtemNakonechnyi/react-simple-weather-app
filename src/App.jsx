@@ -1,5 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
+import SearchBar from "./components/SearchBar.jsx";
+import WeatherInfo from "./components/WeatherInfo.jsx";
+import WeatherDetails from "./components/WeatherDetails.jsx";
 
 function App() {
   const [data, setData] = useState({});
@@ -19,52 +22,15 @@ function App() {
 
   return (
     <div className="app">
-      <div className="search">
-        <input
-          type="text"
-          value={location}
-          onChange={(event) => setLocation(event.target.value)}
-          onKeyDown={searchLocation}
-          placeholder="Enter location"
-        />
-      </div>
+     <SearchBar location={location} setLocation={setLocation} searchLocation={searchLocation}/>
 
       <div className="container">
-        <div className="top">
-          <div className="location">
-            <p>{data.name}</p>
-          </div>
-          <div className="temp">
-            {data.main ? <h1>{data.main.temp.toFixed()} ºC</h1> : null}
-          </div>
-          <div className="description">
-            {data.weather ? <p>{data.weather[0].main}</p> : null}
-          </div>
-        </div>
-
-        {data.name && (
-          <div className="bottom">
-            <div className="feels">
-              {data.main ? (
-                <p className="bold">{data.main.feels_like.toFixed()} ºC</p>
-              ) : null}
-              <p>Feels like</p>
-            </div>
-            <div className="humidity">
-              {data.main ? (
-                <p className="bold">{data.main.humidity} %</p>
-              ) : null}
-              <p>Humidity</p>
-            </div>
-            <div className="wind">
-              {data.wind ? <p className="bold">{data.wind.speed} m/s</p> : null}
-              <p>Wind speed</p>
-            </div>
-          </div>
-        )}
-      </div>
+        <WeatherInfo data={data}/>
+        {data.name && <WeatherDetails data={data}/>}
+     </div>
     </div>
   );
 }
 
 export default App;
+
